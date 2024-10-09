@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.androidApplication)
     id("com.google.devtools.ksp")
+    alias(libs.plugins.jetbrainsKotlinAndroid)
 }
 
 android {
@@ -44,7 +45,8 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
-
+    implementation("androidx.recyclerview:recyclerview:1.3.2")
+    
     val room_version = "2.6.1"
     // Room for persistent local storage
     implementation("androidx.room:room-runtime:$room_version")
