@@ -1,12 +1,14 @@
 package com.example.incomeexpensetracker.ui.addedit
 
 import android.app.DatePickerDialog
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import androidx.appcompat.app.AppCompatActivity
 import com.example.incomeexpensetracker.databinding.ActivityAddEditTransactionBinding
+import com.example.incomeexpensetracker.ui.subcategory.SubcategoryActivity // Adjust import as per your package structure
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -16,8 +18,8 @@ class AddEditTransactionActivity : AppCompatActivity() {
     private var categoryType: String = "Income"
     private var selectedDate: Long = System.currentTimeMillis()
 
-    private val incomeSubcategories = listOf("Food", "Travel", "Cloths")
-    private val expenseSubcategories = listOf("Salary", "Freelance", "Trading")
+    private val incomeSubcategories = listOf("Salary", "Freelance", "Trading")
+    private val expenseSubcategories = listOf("Food", "Travel", "Cloths")
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -64,6 +66,13 @@ class AddEditTransactionActivity : AppCompatActivity() {
         binding.btnSaveTransaction.setOnClickListener {
             // Handle save logic
             // You can collect data from input fields and save to database
+        }
+
+        // Button to manage subcategories
+        binding.btnManageSubcategories.setOnClickListener {
+            // Start SubCategoryActivity
+            val intent = Intent(this, SubcategoryActivity::class.java)
+            startActivity(intent)
         }
     }
 
