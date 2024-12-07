@@ -42,22 +42,5 @@ class HomeActivity : AppCompatActivity() {
             val intent = Intent(this, SummaryActivity::class.java)
             startActivity(intent)
         }
-
-        binding.btnDeleteDb.setOnClickListener {
-            // Deleting the database using the application context
-            val dbName = "income_expense_tracker"  // Replace with your actual database name
-            applicationContext.deleteDatabase(dbName)
-            // Optional: Log or show a message to confirm deletion
-            println("Database deleted.")
-
-            CoroutineScope(Dispatchers.IO).launch {
-                // Force a new instance of the database to be created
-                val appDatabase = AppDatabase.getDatabase(applicationContext)
-                appDatabase.clearAllTables()
-                appDatabase.categoryDao().insertCategory(CategoryEntity(type = "Income"))
-                appDatabase.categoryDao().insertCategory(CategoryEntity(type = "Expense"))
-                Log.d(TAG, "Database instance cleared and recreated.")
-            }
-        }
     }
 }

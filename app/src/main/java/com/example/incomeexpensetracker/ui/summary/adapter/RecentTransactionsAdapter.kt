@@ -39,9 +39,9 @@ class RecentTransactionsAdapter(private val transactions: MutableList<Transactio
 
         fun bind(transaction: Transaction) {
             binding.tvAmount.text = if (transaction.category == "Income") {
-                "+\$${transaction.amount}"
+                "+Rs. ${transaction.amount}"
             } else {
-                "-\$${transaction.amount}"
+                "-RS. ${transaction.amount}"
             }
 
             binding.tvSubcategory.text = transaction.subcategory
@@ -51,9 +51,9 @@ class RecentTransactionsAdapter(private val transactions: MutableList<Transactio
 
             // Optionally, set text color based on category
             if (transaction.category == "Income") {
-                binding.tvAmount.setTextColor(binding.root.context.getColor(R.color.black))
+                binding.tvAmount.setTextColor(binding.root.context.getColor(R.color.green))
             } else {
-                binding.tvAmount.setTextColor(binding.root.context.getColor(R.color.black))
+                binding.tvAmount.setTextColor(binding.root.context.getColor(R.color.red))
             }
         }
     }

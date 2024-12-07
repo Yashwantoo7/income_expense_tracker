@@ -16,32 +16,35 @@
         android:text="Income Expense Tracker"
         android:textSize="24sp"
         android:textStyle="bold"
-        android:layout_marginBottom="32dp"/>
+        android:layout_marginBottom="32dp"
+        android:textColor="?android:textColorPrimary"
+        android:background="?android:colorBackground" />
 
     <Button
         android:id="@+id/btnIncome"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Income"
-        android:layout_marginBottom="16dp"/>
+        android:layout_marginBottom="16dp"
+        android:background="?attr/colorPrimary"
+        android:textColor="?attr/colorOnPrimary"/>
 
     <Button
         android:id="@+id/btnExpense"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Expense"
-        android:layout_marginBottom="16dp"/>
+        android:layout_marginBottom="16dp"
+        android:background="?attr/colorPrimary"
+        android:textColor="?attr/colorOnPrimary"/>
 
     <Button
         android:id="@+id/btnSummary"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Summary"
-        android:layout_marginBottom="16dp"/>
+        android:layout_marginBottom="16dp"
+        android:background="?attr/colorPrimary"
+        android:textColor="?attr/colorOnPrimary"/>
 
-    <Button
-        android:id="@+id/btnDeleteDb"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Delete DB" />
 </LinearLayout>

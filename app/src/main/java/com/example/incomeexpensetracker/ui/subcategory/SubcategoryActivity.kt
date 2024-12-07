@@ -92,7 +92,7 @@ class SubcategoryActivity : AppCompatActivity() {
         val dialog = AlertDialog.Builder(this)
             .setTitle("Add Subcategory")
             .setView(dialogBinding.root)
-            .setNegativeButton("Cancel", null)
+            .setNegativeButton("Done", null)
             .create()
 
         dialog.show()
@@ -106,6 +106,8 @@ class SubcategoryActivity : AppCompatActivity() {
 
     // Function to delete a subcategory
     private fun deleteSubcategory(subcategory: SubcategoryEntity) {
-        subcategoryViewModel.deleteSubcategory(subcategory)
+        lifecycleScope.launch {
+            subcategoryViewModel.deleteSubcategory(subcategory) // Delete from database
+        }
     }
 }
