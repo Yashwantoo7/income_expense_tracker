@@ -58,4 +58,11 @@ dependencies {
 
     // KSP annotation processor for Room
     ksp("androidx.room:room-compiler:$room_version")
+
+    // For ViewModel and viewModelScope
+    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.0") // Check for the latest version
+    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.6.0") // Or the latest version
+    implementation("androidx.activity:activity-ktx:1.8.2") // Or latest version
+    implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.6.0") // Or the latest version
+
 }
