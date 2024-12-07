@@ -1,7 +1,7 @@
 plugins {
     alias(libs.plugins.androidApplication)
-    id("com.google.devtools.ksp")
     alias(libs.plugins.jetbrainsKotlinAndroid)
+    id("com.google.devtools.ksp")
 }
 
 android {
@@ -13,7 +13,7 @@ android {
     }
     defaultConfig {
         applicationId = "com.example.incomeexpensetracker"
-        minSdk = 24
+        minSdk = 26
         targetSdk = 34
         versionCode = 1
         versionName = "1.0"
@@ -33,6 +33,9 @@ android {
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
+    }
+    kotlinOptions {
+        jvmTarget = "1.8"
     }
 }
 
@@ -55,4 +58,11 @@ dependencies {
 
     // KSP annotation processor for Room
     ksp("androidx.room:room-compiler:$room_version")
+
+    // For ViewModel and viewModelScope
+    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.0") // Check for the latest version
+    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.6.0") // Or the latest version
+    implementation("androidx.activity:activity-ktx:1.8.2") // Or latest version
+    implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.6.0") // Or the latest version
+
 }

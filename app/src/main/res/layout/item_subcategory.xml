@@ -1,34 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/itemSubcategoryLayout"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
-    android:padding="12dp"
-    android:gravity="center_vertical">
+    android:padding="16dp">
 
+    <!-- Subcategory name text -->
     <TextView
         android:id="@+id/tvSubcategoryName"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="Subcategory Name"
+        android:layout_weight="1"
+        android:text="Subcategory"
         android:textSize="16sp"
-        android:layout_weight="1"/>
+        android:textColor="@android:color/black" />
 
-    <ImageButton
-        android:id="@+id/btnEditSubcategory"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/ic_launcher_background"
-        android:contentDescription="Edit"
-        android:background="?attr/selectableItemBackgroundBorderless"
-        android:layout_marginEnd="8dp"/>
-
+    <!-- Delete button for each subcategory -->
     <ImageButton
         android:id="@+id/btnDeleteSubcategory"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/ic_launcher_background"
         android:contentDescription="Delete"
-        android:background="?attr/selectableItemBackgroundBorderless"/>
+        android:src="@drawable/ic_launcher_background"
+        app:tint="@color/cardview_dark_background" />
+
 </LinearLayout>
