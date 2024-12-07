@@ -22,7 +22,15 @@ interface TransactionDao {
     @Query("SELECT * FROM transactions ORDER BY date DESC")
     fun getAllTransactions(): Flow<List<TransactionEntity>>
 
+    @Query("SELECT * FROM transactions ORDER BY date DESC LIMIT 10")
+    fun getRecentTransactions(): Flow<List<TransactionEntity>>
+
     @Query("SELECT * FROM transactions WHERE category = :category ORDER BY date DESC")
     fun getTransactionsByCategory(category: String): Flow<List<TransactionEntity>>
 
+    @Query("SELECT SUM(amount) FROM transactions WHERE category = 'Income'")
+    fun getTotalIncome(): Flow<Double>
+
+    @Query("SELECT SUM(amount) FROM transactions WHERE category = 'Expense'")
+    fun getTotalExpense(): Flow<Double>
 }

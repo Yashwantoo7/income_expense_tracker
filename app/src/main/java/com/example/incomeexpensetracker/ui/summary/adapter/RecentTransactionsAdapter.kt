@@ -16,7 +16,7 @@ data class Transaction(
     val date: Long
 )
 
-class RecentTransactionsAdapter(private val transactions: List<Transaction>) :
+class RecentTransactionsAdapter(private val transactions: MutableList<Transaction>) :
     RecyclerView.Adapter<RecentTransactionsAdapter.TransactionViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TransactionViewHolder {
