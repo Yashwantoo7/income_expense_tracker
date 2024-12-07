@@ -33,4 +33,6 @@ class CategoryViewModel(application: Application) : AndroidViewModel(application
         return subcategoryDao.getSubcategoriesByCategory(categoryId)
     }
 
+    // Fetch all categories
+    val allCategories: Flow<List<CategoryEntity>> = categoryDao.getAllCategories()
 }

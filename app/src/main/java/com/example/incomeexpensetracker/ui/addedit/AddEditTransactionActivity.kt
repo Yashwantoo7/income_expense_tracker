@@ -10,10 +10,14 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.example.incomeexpensetracker.databinding.ActivityAddEditTransactionBinding
+import com.example.incomeexpensetracker.db.AppDatabase
+import com.example.incomeexpensetracker.db.DatabaseLogger
 import com.example.incomeexpensetracker.mvvm.CategoryViewModel
 import com.example.incomeexpensetracker.mvvm.TransactionViewModel
 import com.example.incomeexpensetracker.transactions.TransactionEntity
 import com.example.incomeexpensetracker.ui.subcategory.SubcategoryActivity // Adjust import as per your package structure
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.*
@@ -55,6 +59,8 @@ class AddEditTransactionActivity : AppCompatActivity() {
 
         // Setup subcategory spinner based on categoryType
         setupSubcategorySpinner(categoryType)
+
+        DatabaseLogger.logAllEntries(AppDatabase.getDatabase(this))
 
         // Handle category change
         binding.spinnerCategory.onItemSelectedListener =
