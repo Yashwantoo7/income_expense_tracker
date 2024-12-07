@@ -53,6 +53,7 @@ class App : Application() {
             }
         } else {
             Log.d(TAG, "Database already exists. No need to prepopulate.")
+//            deleteDatabase(applicationContext)
         }
     }
 
