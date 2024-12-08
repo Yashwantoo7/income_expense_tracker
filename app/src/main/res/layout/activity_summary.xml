@@ -41,7 +41,7 @@
             android:text="Balance: Rs. 0.00"
             android:textSize="18sp"
             android:textStyle="bold"
-            android:layout_marginBottom="16dp"
+            android:layout_margin="50dp"
             android:background="?android:colorBackground"/>
 
         <!-- Recent Transactions -->
