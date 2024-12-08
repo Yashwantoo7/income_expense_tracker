@@ -53,11 +53,11 @@ class App : Application() {
             }
         } else {
             Log.d(TAG, "Database already exists. No need to prepopulate.")
-//            deleteDatabase(this)
+//            deleteDatabase(applicationContext)
         }
     }
 
-    private fun deleteDatabase(context: Context) {
+    fun deleteDatabase(context: Context) {
         val dbFile = context.getDatabasePath("income_expense_tracker")
         if (dbFile.exists()) {
             val deleted = context.deleteDatabase("income_expense_tracker")

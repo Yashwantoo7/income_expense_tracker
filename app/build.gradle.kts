@@ -64,5 +64,6 @@ dependencies {
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.6.0") // Or the latest version
     implementation("androidx.activity:activity-ktx:1.8.2") // Or latest version
     implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.6.0") // Or the latest version
+    implementation("androidx.cardview:cardview:1.0.0")
 
 }

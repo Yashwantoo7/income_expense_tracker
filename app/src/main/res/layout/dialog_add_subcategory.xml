@@ -21,5 +21,7 @@
         android:id="@+id/btnAddSubcategory"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Add Subcategory" />
+        android:text="Add Subcategory"
+        android:background="?attr/colorPrimary"
+        android:textColor="?attr/colorOnPrimary" />
 </LinearLayout>

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="green">#13D819</color>
+    <color name="red">#FF1400</color>
+    <color name="background">#121212</color>
+    <color name="textPrimary">#FFFFFF</color>
+    <color name="textSecondary">#BDBDBD</color>
+    <color name="buttonBackground">#2F64FF</color>
+    <color name="income">#21E20E</color>
+    <color name="expense">#FF0000</color>
+    <color name="summary">#0B7CF1</color>
+    <color name="buttonText">#000000</color>
+    <color name="sky_blue">#81D4FA</color>
+    <color name="white">#FFFFFF</color>
+    <color name="teal_200">#03DAC5</color>
+</resources>

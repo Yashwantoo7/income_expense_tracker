@@ -1,46 +1,43 @@
 package com.example.incomeexpensetracker.ui.subcategory.adapter
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.example.incomeexpensetracker.R
+import com.example.incomeexpensetracker.databinding.ItemSubcategoryBinding
 import com.example.incomeexpensetracker.transactions.SubcategoryEntity
 
 class SubcategoryAdapter(
     private var subcategories: List<SubcategoryEntity>,
-    private val onDeleteClick: (SubcategoryEntity) -> Unit
+    private val onDeleteSubcategory: (SubcategoryEntity) -> Unit
 ) : RecyclerView.Adapter<SubcategoryAdapter.SubcategoryViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SubcategoryViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.item_subcategory, parent, false)
-        return SubcategoryViewHolder(view)
+        val binding = ItemSubcategoryBinding.inflate(
+            LayoutInflater.from(parent.context),
+            parent,
+            false
+        )
+        return SubcategoryViewHolder(binding)
     }
 
     override fun onBindViewHolder(holder: SubcategoryViewHolder, position: Int) {
-        val subcategory = subcategories[position]
-        holder.bind(subcategory)
+        holder.bind(subcategories[position])
     }
 
-    override fun getItemCount(): Int {
-        return subcategories.size
-    }
+    override fun getItemCount(): Int = subcategories.size
 
     fun updateList(newSubcategories: List<SubcategoryEntity>) {
         subcategories = newSubcategories
         notifyDataSetChanged()
     }
 
-    inner class SubcategoryViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        private val subcategoryName: TextView = view.findViewById(R.id.tvSubcategoryName)
+    inner class SubcategoryViewHolder(private val binding: ItemSubcategoryBinding) :
+        RecyclerView.ViewHolder(binding.root) {
 
         fun bind(subcategory: SubcategoryEntity) {
-            subcategoryName.text = subcategory.name
-
-            itemView.setOnLongClickListener {
-                onDeleteClick(subcategory)
-                true
+            binding.tvSubcategoryName.text = subcategory.name
+            binding.btnDeleteSubcategory.setOnClickListener {
+                onDeleteSubcategory(subcategory)
             }
         }
     }
