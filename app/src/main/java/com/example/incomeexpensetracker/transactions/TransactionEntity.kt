@@ -9,5 +9,6 @@ data class TransactionEntity (
     val amount: Double,
     val category: String,
     val subcategory: String,
-    val date: Long
+    val date: Long,
+    val description: String? = null  // New description field (nullable)
 )

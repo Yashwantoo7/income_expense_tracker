@@ -33,4 +33,7 @@ interface TransactionDao {
 
     @Query("SELECT SUM(amount) FROM transactions WHERE category = 'Expense'")
     fun getTotalExpense(): Flow<Double>
+
+    @Query("SELECT * FROM transactions WHERE description LIKE '%' || :keyword || '%' ORDER BY date DESC")
+    fun getTransactionsByDescription(keyword: String): Flow<List<TransactionEntity>>
 }

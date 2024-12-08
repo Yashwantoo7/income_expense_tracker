@@ -1,50 +1,82 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/homeLayout"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:gravity="center"
     android:padding="16dp"
-    tools:context=".ui.home.HomeActivity">
+    android:background="?android:colorBackground">
 
+    <!-- App Title -->
     <TextView
         android:id="@+id/tvAppTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Income Expense Tracker"
-        android:textSize="24sp"
+        android:textSize="28sp"
         android:textStyle="bold"
-        android:layout_marginBottom="32dp"
         android:textColor="?android:textColorPrimary"
-        android:background="?android:colorBackground" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/cardContainer"
+        app:layout_constraintVertical_bias="0.3"
+        android:layout_marginBottom="16dp" />
 
-    <Button
-        android:id="@+id/btnIncome"
-        android:layout_width="match_parent"
+    <!-- Card for Buttons -->
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardContainer"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="Income"
-        android:layout_marginBottom="16dp"
-        android:background="?attr/colorPrimary"
-        android:textColor="?attr/colorOnPrimary"/>
+        android:layout_margin="16dp"
+        app:cardCornerRadius="16dp"
+        app:cardElevation="8dp"
+        app:cardBackgroundColor="?android:colorBackground"
+        app:layout_constraintTop_toBottomOf="@id/tvAppTitle"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
 
-    <Button
-        android:id="@+id/btnExpense"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Expense"
-        android:layout_marginBottom="16dp"
-        android:background="?attr/colorPrimary"
-        android:textColor="?attr/colorOnPrimary"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp">
 
-    <Button
-        android:id="@+id/btnSummary"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Summary"
-        android:layout_marginBottom="16dp"
-        android:background="?attr/colorPrimary"
-        android:textColor="?attr/colorOnPrimary"/>
+            <!-- Income Button -->
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnIncome"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Income"
+                style="@style/Widget.MaterialComponents.Button"
+                app:cornerRadius="12dp"
+                android:layout_marginBottom="12dp"
+                android:backgroundTint="@color/green"
+                android:textColor="@color/black" />
 
-</LinearLayout>
+            <!-- Expense Button -->
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnExpense"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Expense"
+                style="@style/Widget.MaterialComponents.Button"
+                app:cornerRadius="12dp"
+                android:layout_marginBottom="12dp"
+                android:backgroundTint="@color/red"
+                android:textColor="@color/black" />
+
+            <!-- Summary Button -->
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnSummary"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Summary"
+                style="@style/Widget.MaterialComponents.Button"
+                app:cornerRadius="12dp"
+                android:backgroundTint="@color/sky_blue"
+                android:textColor="@color/black" />
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

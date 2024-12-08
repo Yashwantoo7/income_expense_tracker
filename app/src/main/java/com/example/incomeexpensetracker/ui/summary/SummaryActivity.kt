@@ -101,7 +101,7 @@ class SummaryActivity : AppCompatActivity() {
                 // Map the transactions to your UI model (Transaction)
                 recentTransactions.clear()
                 recentTransactions.addAll(transactions.map {
-                    Transaction(it.id, it.amount, it.category, it.subcategory, it.date)
+                    Transaction(it.id, it.amount, it.category, it.subcategory, it.date, it.description)
                 })
                 adapter.notifyDataSetChanged()
             }
