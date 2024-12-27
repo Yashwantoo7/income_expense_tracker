@@ -16,30 +16,33 @@
             android:id="@+id/tvTotalIncome"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Total Income: $0.00"
+            android:text="Total Income: Rs. 0.00"
             android:textSize="18sp"
-            android:textColor="@color/black"
-            android:layout_marginBottom="8dp"/>
+            android:layout_marginBottom="8dp"
+            android:textColor="@color/income"
+            android:background="?android:colorBackground"/>
 
         <!-- Total Expense -->
         <TextView
             android:id="@+id/tvTotalExpense"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Total Expense: $0.00"
+            android:text="Total Expense: Rs. 0.00"
             android:textSize="18sp"
-            android:textColor="@color/black"
-            android:layout_marginBottom="8dp"/>
+            android:layout_marginBottom="8dp"
+            android:textColor="@color/expense"
+            android:background="?android:colorBackground"/>
 
         <!-- Balance -->
         <TextView
             android:id="@+id/tvBalance"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Balance: $0.00"
+            android:text="Balance: Rs. 0.00"
             android:textSize="18sp"
             android:textStyle="bold"
-            android:layout_marginBottom="16dp"/>
+            android:layout_margin="50dp"
+            android:background="?android:colorBackground"/>
 
         <!-- Recent Transactions -->
         <TextView
@@ -49,13 +52,15 @@
             android:text="Recent Transactions"
             android:textSize="20sp"
             android:textStyle="bold"
-            android:layout_marginBottom="8dp"/>
+            android:layout_marginBottom="8dp"
+            android:textColor="?android:textColorPrimary"
+            android:background="?android:colorBackground"/>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rvRecentTransactions"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"/>
+            android:layout_marginBottom="16dp" />
 
         <!-- Optionally, add charts or graphs here -->
     </LinearLayout>

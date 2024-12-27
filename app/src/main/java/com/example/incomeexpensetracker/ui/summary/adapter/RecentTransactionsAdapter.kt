@@ -13,10 +13,11 @@ data class Transaction(
     val amount: Double,
     val category: String,
     val subcategory: String,
-    val date: Long
+    val date: Long,
+    val description: String? = null
 )
 
-class RecentTransactionsAdapter(private val transactions: List<Transaction>) :
+class RecentTransactionsAdapter(private val transactions: MutableList<Transaction>) :
     RecyclerView.Adapter<RecentTransactionsAdapter.TransactionViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TransactionViewHolder {
@@ -39,9 +40,9 @@ class RecentTransactionsAdapter(private val transactions: List<Transaction>) :
 
         fun bind(transaction: Transaction) {
             binding.tvAmount.text = if (transaction.category == "Income") {
-                "+\$${transaction.amount}"
+                "+Rs. ${transaction.amount}"
             } else {
-                "-\$${transaction.amount}"
+                "-RS. ${transaction.amount}"
             }
 
             binding.tvSubcategory.text = transaction.subcategory
@@ -49,11 +50,12 @@ class RecentTransactionsAdapter(private val transactions: List<Transaction>) :
             val sdf = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
             binding.tvDate.text = sdf.format(Date(transaction.date))
 
+            binding.tvDescription.text = transaction.description
             // Optionally, set text color based on category
             if (transaction.category == "Income") {
-                binding.tvAmount.setTextColor(binding.root.context.getColor(R.color.black))
+                binding.tvAmount.setTextColor(binding.root.context.getColor(R.color.green))
             } else {
-                binding.tvAmount.setTextColor(binding.root.context.getColor(R.color.black))
+                binding.tvAmount.setTextColor(binding.root.context.getColor(R.color.red))
             }
         }
     }

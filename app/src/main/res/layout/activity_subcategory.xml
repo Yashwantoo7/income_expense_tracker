@@ -1,30 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/subcategoryLayout"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="16dp">
+    android:padding="16dp"
+    tools:context=".ui.subcategory.SubcategoryActivity">
 
-    <TextView
-        android:id="@+id/tvSubcategoryTitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Manage Subcategories"
-        android:textSize="20sp"
-        android:textStyle="bold"
-        android:layout_marginBottom="16dp"/>
-
+    <!-- RecyclerView to display the list of subcategories -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvSubcategories"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:layout_marginBottom="16dp"/>
+        tools:listitem="@layout/item_subcategory" />
 
-    <Button
-        android:id="@+id/btnAddSubcategory"
-        android:layout_width="match_parent"
+    <!-- FloatingActionButton to add a new subcategory -->
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fabAddSubcategory"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Add Subcategory"/>
+        android:layout_gravity="end"
+        android:contentDescription="Add Subcategory"
+        android:src="@drawable/baseline_add_circle_outline_24"
+        android:tint="@android:color/white"
+        android:layout_margin="16dp"
+        android:backgroundTint="@color/white" />
+
 </LinearLayout>
