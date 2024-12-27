@@ -1,5 +1,6 @@
 package com.example.incomeexpensetracker.ui.summary
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.activity.viewModels
@@ -11,6 +12,7 @@ import com.example.incomeexpensetracker.databinding.ActivitySummaryBinding
 import com.example.incomeexpensetracker.ui.summary.adapter.RecentTransactionsAdapter
 import com.example.incomeexpensetracker.ui.summary.adapter.Transaction
 import com.example.incomeexpensetracker.mvvm.TransactionViewModel
+import com.example.incomeexpensetracker.ui.addedit.EditTransactionActivity
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
@@ -30,7 +32,14 @@ class SummaryActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         // Set up RecyclerView for recent transactions
-        adapter = RecentTransactionsAdapter(recentTransactions)
+        adapter = RecentTransactionsAdapter(recentTransactions, onEditClick = {
+            onEditTransactionClick(it)
+        }, onDeleteClick = {
+            lifecycleScope.launch {
+                transactionViewModel.deleteTransaction(it)
+            }
+        })
+
         binding.rvRecentTransactions.layoutManager = LinearLayoutManager(this)
         binding.rvRecentTransactions.adapter = adapter
 
@@ -106,5 +115,13 @@ class SummaryActivity : AppCompatActivity() {
                 adapter.notifyDataSetChanged()
             }
         }
+    }
+
+    private fun onEditTransactionClick(transaction: Transaction) {
+        // Launch an edit dialog or activity
+        val intent = Intent(this, EditTransactionActivity::class.java).apply {
+            putExtra("transaction_id", transaction.id)
+        }
+        startActivity(intent)
     }
 }

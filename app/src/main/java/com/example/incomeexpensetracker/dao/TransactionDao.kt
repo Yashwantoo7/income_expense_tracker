@@ -28,6 +28,9 @@ interface TransactionDao {
     @Query("SELECT * FROM transactions WHERE category = :category ORDER BY date DESC")
     fun getTransactionsByCategory(category: String): Flow<List<TransactionEntity>>
 
+    @Query("SELECT * FROM transactions WHERE id = :transactionId")
+    suspend fun getTransactionById(transactionId: Int): TransactionEntity?
+
     @Query("SELECT SUM(amount) FROM transactions WHERE category = 'Income'")
     fun getTotalIncome(): Flow<Double>
 

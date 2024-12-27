@@ -3,8 +3,10 @@ package com.example.incomeexpensetracker.ui.summary.adapter
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import androidx.room.PrimaryKey
 import com.example.incomeexpensetracker.R
 import com.example.incomeexpensetracker.databinding.ItemRecentTransactionBinding
+import com.example.incomeexpensetracker.transactions.TransactionEntity
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -17,7 +19,11 @@ data class Transaction(
     val description: String? = null
 )
 
-class RecentTransactionsAdapter(private val transactions: MutableList<Transaction>) :
+class RecentTransactionsAdapter(
+    private val transactions: MutableList<Transaction>,
+    private val onEditClick: (Transaction) -> Unit,
+    private val onDeleteClick: (TransactionEntity) -> Unit
+    ) :
     RecyclerView.Adapter<RecentTransactionsAdapter.TransactionViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TransactionViewHolder {
@@ -56,6 +62,23 @@ class RecentTransactionsAdapter(private val transactions: MutableList<Transactio
                 binding.tvAmount.setTextColor(binding.root.context.getColor(R.color.green))
             } else {
                 binding.tvAmount.setTextColor(binding.root.context.getColor(R.color.red))
+            }
+
+            //Handle edit button click
+            binding.btnEditTransaction.setOnClickListener {
+                onEditClick(transaction)
+            }
+            //Handle delete button click
+            binding.btnDeleteTransaction.setOnClickListener {
+                val transactionEntity = TransactionEntity(
+                    id = transaction.id,
+                    amount = transaction.amount,
+                    category = transaction.category,
+                    subcategory = transaction.subcategory,
+                    date = transaction.date,
+                    description = transaction.description
+                )
+                onDeleteClick(transactionEntity)
             }
         }
     }

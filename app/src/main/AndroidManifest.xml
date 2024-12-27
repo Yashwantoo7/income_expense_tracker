@@ -23,6 +23,9 @@
             android:name=".ui.addedit.AddEditTransactionActivity"
             android:exported="false" />
         <activity
+            android:name=".ui.addedit.EditTransactionActivity"
+            android:exported="false" />
+        <activity
             android:name=".ui.home.HomeActivity"
             android:exported="true">
             <intent-filter>
