@@ -1,8 +1,11 @@
 package com.example.incomeexpensetracker.ui.subcategory.adapter
 
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.RecyclerView
+import com.example.incomeexpensetracker.R
 import com.example.incomeexpensetracker.databinding.ItemSubcategoryBinding
 import com.example.incomeexpensetracker.transactions.SubcategoryEntity
 
@@ -37,8 +40,29 @@ class SubcategoryAdapter(
         fun bind(subcategory: SubcategoryEntity) {
             binding.tvSubcategoryName.text = subcategory.name
             binding.btnDeleteSubcategory.setOnClickListener {
-                onDeleteSubcategory(subcategory)
+                showDeleteConfirmationDialog(it.context, subcategory)
             }
+        }
+
+        private fun showDeleteConfirmationDialog(context: Context, subcategory: SubcategoryEntity) {
+            val dialog = AlertDialog.Builder(context)
+                .setTitle("Confirm Deletion")
+                .setMessage("Are you sure you want to delete this subcategory?")
+                .setPositiveButton("Delete") { _, _ ->
+                    // If the user confirms, call the delete function
+                    onDeleteSubcategory(subcategory)
+                }
+                .setNegativeButton("Cancel", null) // Dismiss the dialog on cancel
+                .create()
+
+            // Customize button colors
+            dialog.setOnShowListener {
+                dialog.getButton(android.app.AlertDialog.BUTTON_POSITIVE)?.setTextColor(binding.root.context.getColor(
+                    R.color.red))
+                dialog.getButton(android.app.AlertDialog.BUTTON_NEGATIVE)?.setTextColor(binding.root.context.getColor(
+                    R.color.gray))
+            }
+            dialog.show()
         }
     }
 }

@@ -32,7 +32,7 @@ class SummaryActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         // Set up RecyclerView for recent transactions
-        adapter = RecentTransactionsAdapter(recentTransactions, onEditClick = {
+        adapter = RecentTransactionsAdapter(this, recentTransactions, onEditClick = {
             onEditTransactionClick(it)
         }, onDeleteClick = {
             lifecycleScope.launch {

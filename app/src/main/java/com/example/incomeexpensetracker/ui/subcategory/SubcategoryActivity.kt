@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import android.widget.TextView
 import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
@@ -75,6 +76,15 @@ class SubcategoryActivity : AppCompatActivity() {
                     object : AdapterView.OnItemSelectedListener {
                         override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
                             val selectedCategory = categories[position]
+                            // Change color based on category type (Income or Expense)
+                            val selectedTextView = view as? TextView
+                            if (selectedTextView != null) {
+                                when (selectedCategory.type) {
+                                    "Income" -> selectedTextView.setTextColor(getColor(android.R.color.holo_green_dark))
+                                    "Expense" -> selectedTextView.setTextColor(getColor(android.R.color.holo_red_dark))
+                                    else -> selectedTextView.setTextColor(getColor(android.R.color.black))
+                                }
+                            }
                             dialogBinding.btnAddSubcategory.setOnClickListener {
                                 val subcategoryName = dialogBinding.etSubcategoryName.text.toString()
                                 if (subcategoryName.isNotEmpty()) {

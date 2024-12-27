@@ -1,12 +1,16 @@
 package com.example.incomeexpensetracker.ui.summary.adapter
 
+import android.app.AlertDialog
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat.getColor
 import androidx.recyclerview.widget.RecyclerView
 import androidx.room.PrimaryKey
 import com.example.incomeexpensetracker.R
 import com.example.incomeexpensetracker.databinding.ItemRecentTransactionBinding
 import com.example.incomeexpensetracker.transactions.TransactionEntity
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -20,6 +24,7 @@ data class Transaction(
 )
 
 class RecentTransactionsAdapter(
+    private val context: Context,
     private val transactions: MutableList<Transaction>,
     private val onEditClick: (Transaction) -> Unit,
     private val onDeleteClick: (TransactionEntity) -> Unit
@@ -70,16 +75,39 @@ class RecentTransactionsAdapter(
             }
             //Handle delete button click
             binding.btnDeleteTransaction.setOnClickListener {
-                val transactionEntity = TransactionEntity(
-                    id = transaction.id,
-                    amount = transaction.amount,
-                    category = transaction.category,
-                    subcategory = transaction.subcategory,
-                    date = transaction.date,
-                    description = transaction.description
-                )
-                onDeleteClick(transactionEntity)
+                // Show confirmation dialog
+                val dialog = MaterialAlertDialogBuilder(context)
+                    .setTitle("Delete Transaction")
+                    .setMessage("Are you sure you want to delete this transaction?\nThis action cannot be undone.")
+                    .setIcon(R.drawable.ic_warning) // Add an icon (use an appropriate drawable resource)
+                    .setPositiveButton("Delete") { dialog, _ ->
+                        // Proceed with deletion
+                        val transactionEntity = TransactionEntity(
+                            id = transaction.id,
+                            amount = transaction.amount,
+                            category = transaction.category,
+                            subcategory = transaction.subcategory,
+                            date = transaction.date,
+                            description = transaction.description
+                        )
+                        onDeleteClick(transactionEntity)
+                        dialog.dismiss()
+                    }
+                    .setNegativeButton("Cancel") { dialog, _ ->
+                        // Dismiss the dialog
+                        dialog.dismiss()
+                    }
+                    .create()
+
+                // Customize button colors
+                dialog.setOnShowListener {
+                    dialog.getButton(AlertDialog.BUTTON_POSITIVE)?.setTextColor(binding.root.context.getColor(R.color.red))
+                    dialog.getButton(AlertDialog.BUTTON_NEGATIVE)?.setTextColor(binding.root.context.getColor(R.color.gray))
+                }
+
+                dialog.show()
             }
+
         }
     }
 }
