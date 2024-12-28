@@ -2,17 +2,11 @@ package com.example.incomeexpensetracker.ui.home
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
-import com.example.incomeexpensetracker.App
 import com.example.incomeexpensetracker.databinding.ActivityHomeBinding
-import com.example.incomeexpensetracker.db.AppDatabase
-import com.example.incomeexpensetracker.transactions.CategoryEntity
 import com.example.incomeexpensetracker.ui.addedit.AddEditTransactionActivity
+import com.example.incomeexpensetracker.ui.charts.ChartActivity
 import com.example.incomeexpensetracker.ui.summary.SummaryActivity
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 
 class HomeActivity : AppCompatActivity() {
 
@@ -40,6 +34,11 @@ class HomeActivity : AppCompatActivity() {
 
         binding.btnSummary.setOnClickListener {
             val intent = Intent(this, SummaryActivity::class.java)
+            startActivity(intent)
+        }
+
+        binding.btnCharts.setOnClickListener {
+            val intent  = Intent(this, ChartActivity::class.java)
             startActivity(intent)
         }
     }

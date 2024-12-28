@@ -76,6 +76,17 @@
                 app:cornerRadius="12dp"
                 android:backgroundTint="@color/sky_blue"
                 android:textColor="@color/black" />
+
+            <!-- Charts Button -->
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnCharts"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Charts"
+                style="@style/Widget.MaterialComponents.Button"
+                app:cornerRadius="12dp"
+                android:backgroundTint="@color/secondaryColor"
+                android:textColor="@color/black" />
         </LinearLayout>
     </androidx.cardview.widget.CardView>
 

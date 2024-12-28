@@ -1,6 +1,7 @@
 package com.example.incomeexpensetracker.mvvm
 
 import android.app.Application
+import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.incomeexpensetracker.dao.TransactionDao
@@ -8,9 +9,12 @@ import com.example.incomeexpensetracker.db.AppDatabase
 import com.example.incomeexpensetracker.transactions.TransactionEntity
 import com.example.incomeexpensetracker.ui.summary.adapter.Transaction
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.count
 import kotlinx.coroutines.launch
 
 class TransactionViewModel(application: Application) : AndroidViewModel(application) {
+
+    private val TAG = "TransactionViewModel"
 
     private val transactionDao: TransactionDao = AppDatabase.getDatabase(application).transactionDao()
 
@@ -46,4 +50,15 @@ class TransactionViewModel(application: Application) : AndroidViewModel(applicat
             transactionDao.updateTransaction(transaction)
         }
     }
+
+    //Fetch subcategories for Income categories
+    fun getIncomeSubcategoriesTransactions(): Flow<List<TransactionEntity>> {
+        return transactionDao.getTransactionsByCategory("Income")
+    }
+
+    //Fetch subcategories for Income categories
+    fun getExpenseSubcategoriesTransactions(): Flow<List<TransactionEntity>> {
+        return transactionDao.getTransactionsByCategory("Expense")
+    }
+
 }
