@@ -1,38 +1,51 @@
-<?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="16dp"
-    android:background="?android:colorBackground">
+    android:padding="16dp">
 
-    <!-- App Title -->
-    <TextView
-        android:id="@+id/tvAppTitle"
-        android:layout_width="wrap_content"
+    <!-- App Title with Icon -->
+    <LinearLayout
+        android:id="@+id/titleLayout"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Income Expense Tracker"
-        android:textSize="28sp"
-        android:textStyle="bold"
-        android:textColor="?android:textColorPrimary"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toTopOf="@+id/cardContainer"
-        app:layout_constraintVertical_bias="0.3"
-        android:layout_marginBottom="16dp" />
+        android:layout_marginBottom="32dp">
+
+        <ImageView
+            android:src="@drawable/ic_app_logo"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginEnd="8dp" />
+
+        <TextView
+            android:id="@+id/tvAppTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Income Expense Tracker"
+            android:textSize="28sp"
+            android:textStyle="bold"
+            android:textColor="?android:textColorPrimary"
+            android:layout_marginStart="8dp"/>
+    </LinearLayout>
 
     <!-- Card for Buttons -->
     <androidx.cardview.widget.CardView
         android:id="@+id/cardContainer"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_margin="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="16dp"
         app:cardCornerRadius="16dp"
-        app:cardElevation="8dp"
+        app:cardElevation="12dp"
         app:cardBackgroundColor="?android:colorBackground"
-        app:layout_constraintTop_toBottomOf="@id/tvAppTitle"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
 
@@ -40,53 +53,125 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="16dp">
+            android:padding="16dp"
+            android:spacing="16dp">
 
-            <!-- Income Button -->
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btnIncome"
+            <!-- Income Button with Description -->
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Income"
-                style="@style/Widget.MaterialComponents.Button"
-                app:cornerRadius="12dp"
-                android:layout_marginBottom="12dp"
-                android:backgroundTint="@color/green"
-                android:textColor="@color/black" />
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:layout_marginBottom="12dp">
 
-            <!-- Expense Button -->
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btnExpense"
+                <ImageButton
+                    android:id="@+id/btnIncome"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:src="@drawable/ic_income"
+                    android:background="?android:attr/selectableItemBackground"
+                    android:contentDescription="Income"
+                    android:scaleType="centerInside"
+                    android:layout_gravity="start" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="Income"
+                    android:gravity="center"
+                    android:textColor="?android:textColorPrimary"
+                    android:textSize="16sp"
+                    android:layout_weight="1"  />
+
+            </LinearLayout>
+
+            <!-- Expense Button with Description -->
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Expense"
-                style="@style/Widget.MaterialComponents.Button"
-                app:cornerRadius="12dp"
-                android:layout_marginBottom="12dp"
-                android:backgroundTint="@color/red"
-                android:textColor="@color/black" />
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:layout_marginBottom="12dp">
 
-            <!-- Summary Button -->
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btnSummary"
+                <ImageButton
+                    android:id="@+id/btnExpense"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:src="@drawable/ic_expense"
+                    android:background="?android:attr/selectableItemBackground"
+                    android:contentDescription="Expense"
+                    android:scaleType="centerInside"
+                    android:layout_gravity="start" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="Expense"
+                    android:gravity="center"
+                    android:textColor="?android:textColorPrimary"
+                    android:textSize="16sp"
+                    android:layout_weight="1"  />
+
+            </LinearLayout>
+
+            <!-- Summary Button with Description -->
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Summary"
-                style="@style/Widget.MaterialComponents.Button"
-                app:cornerRadius="12dp"
-                android:backgroundTint="@color/sky_blue"
-                android:textColor="@color/black" />
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:layout_marginBottom="12dp">
 
-            <!-- Charts Button -->
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btnCharts"
+                <ImageButton
+                    android:id="@+id/btnSummary"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:src="@drawable/ic_summary"
+                    android:background="?android:attr/selectableItemBackground"
+                    android:contentDescription="Summary"
+                    android:scaleType="centerInside"
+                    android:layout_gravity="start" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="Summary"
+                    android:gravity="center"
+                    android:textColor="?android:textColorPrimary"
+                    android:textSize="16sp"
+                    android:layout_weight="1"  />
+
+            </LinearLayout>
+
+            <!-- Charts Button with Description -->
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Charts"
-                style="@style/Widget.MaterialComponents.Button"
-                app:cornerRadius="12dp"
-                android:backgroundTint="@color/secondaryColor"
-                android:textColor="@color/black" />
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:layout_marginBottom="12dp">
+
+                <ImageButton
+                    android:id="@+id/btnCharts"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:src="@drawable/ic_charts"
+                    android:background="?android:attr/selectableItemBackground"
+                    android:contentDescription="Charts"
+                    android:scaleType="centerInside"
+                    android:layout_gravity="start" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="Charts"
+                    android:gravity="center"
+                    android:textColor="?android:textColorPrimary"
+                    android:textSize="16sp"
+                    android:layout_weight="1"  />
+
+            </LinearLayout>
+
         </LinearLayout>
     </androidx.cardview.widget.CardView>
 
