@@ -48,7 +48,7 @@ class SummaryActivity : AppCompatActivity() {
         binding.rvRecentTransactions.adapter = adapter
 
         // Observe the total income, total expense, and balance
-        observeSummaryData()
+        observeSummaryData(-1)
 
         // Populate the Spinner for days selection
         // Get the Spinner for selecting days
@@ -56,14 +56,20 @@ class SummaryActivity : AppCompatActivity() {
         setupDaysSpinner(daysSpinner)
 
         // Observe recent transactions based on selected number of days
-        observeRecentTransactions()
+        observeRecentTransactions(-1)
     }
 
     private fun setupDaysSpinner(daysSpinner: Spinner) {
         daysSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parentView: AdapterView<*>, selectedItemView: android.view.View?, position: Int, id: Long) {
-                val selectedDays = parentView.getItemAtPosition(position).toString().toInt()
-                observeRecentTransactions(selectedDays)  // Fetch transactions for selected days
+                val selectedDays = parentView.getItemAtPosition(position).toString()
+                if (selectedDays=="All") {
+                    observeRecentTransactions(-1)
+                    observeSummaryData(-1)
+                } else {
+                    observeRecentTransactions(selectedDays.toInt())  // Fetch transactions for selected days
+                    observeSummaryData(selectedDays.toInt())
+                }
             }
 
             override fun onNothingSelected(parentView: AdapterView<*>) {
@@ -73,36 +79,65 @@ class SummaryActivity : AppCompatActivity() {
         }
     }
 
-    private fun observeRecentTransactions(days: Int = 30) {
-        lifecycleScope.launchWhenStarted {
-            val filteredTransactions = transactionFilterHelper.filterTransactionsByDays(transactionViewModel.recentTransactions, days)
-            filteredTransactions.collect { transactions ->
-                // Map the transactions to your UI model (Transaction)
-                recentTransactions.clear()
-                recentTransactions.addAll(transactions.map {
-                    Transaction(it.id, it.amount, it.category, it.subcategory, it.date, it.description)
-                })
-                adapter.notifyDataSetChanged()
+    private fun observeRecentTransactions(days: Int) {
+        lifecycleScope.launch {
+            if (days != -1) {
+                val filteredTransactions = transactionFilterHelper.filterTransactionsByDays(transactionViewModel.recentTransactions, days)
+                filteredTransactions.collect { transactions ->
+                    // Map the transactions to your UI model (Transaction)
+                    recentTransactions.clear()
+                    recentTransactions.addAll(transactions.map {
+                        Transaction(it.id, it.amount, it.category, it.subcategory, it.date, it.description)
+                    })
+                    adapter.notifyDataSetChanged()
+                }
+            } else {
+                transactionViewModel.recentTransactions.collect { transactions ->
+                    // Map the transactions to your UI model (Transaction)
+                    recentTransactions.clear()
+                    recentTransactions.addAll(transactions.map {
+                        Transaction(it.id, it.amount, it.category, it.subcategory, it.date, it.description)
+                    })
+                    adapter.notifyDataSetChanged()
+                }
             }
         }
     }
 
-    private fun observeSummaryData() {
-        lifecycleScope.launchWhenStarted {
-            launch {
-                transactionViewModel.totalIncome.collect { income ->
-                    binding.tvTotalIncome.text = "Total Income: Rs. ${income ?: 0.0}"
-                    // Extract numeric value from tvTotalIncome and pass to updateBalance
-                    val totalIncomeValue = extractAmount(binding.tvTotalIncome.text.toString())
-                    updateBalance(totalIncomeValue, extractAmount(binding.tvTotalExpense.text.toString()))
+    private fun observeSummaryData(days: Int) {
+        lifecycleScope.launch {
+            if (days != -1) {
+                launch {
+                    val filteredTransactions = transactionFilterHelper.filterTransactionsByDays(transactionViewModel.recentTransactions, days)
+                    filteredTransactions.collect {transactions->
+                        val income = transactions.filter { it.category == "Income" }.sumOf { it.amount }
+                        val expense = transactions.filter { it.category == "Expense" }.sumOf { it.amount }
+                        binding.tvTotalIncome.text = "Total Income: Rs. ${income ?: 0.0}"
+                        // Extract numeric value from tvTotalIncome and pass to updateBalance
+                        val totalIncomeValue = extractAmount(binding.tvTotalIncome.text.toString())
+                        updateBalance(totalIncomeValue, extractAmount(binding.tvTotalExpense.text.toString()))
+                        binding.tvTotalExpense.text = "Total Expense: Rs. ${expense ?: 0.0}"
+                        // Extract numeric value from tvTotalExpense and pass to updateBalance
+                        val totalExpenseValue = extractAmount(binding.tvTotalExpense.text.toString())
+                        updateBalance(extractAmount(binding.tvTotalIncome.text.toString()), totalExpenseValue)
+                    }
                 }
-            }
-            launch {
-                transactionViewModel.totalExpense.collect { expense ->
-                    binding.tvTotalExpense.text = "Total Expense: Rs. ${expense ?: 0.0}"
-                    // Extract numeric value from tvTotalExpense and pass to updateBalance
-                    val totalExpenseValue = extractAmount(binding.tvTotalExpense.text.toString())
-                    updateBalance(extractAmount(binding.tvTotalIncome.text.toString()), totalExpenseValue)
+            } else {
+                launch {
+                    transactionViewModel.totalIncome.collect { income ->
+                        binding.tvTotalIncome.text = "Total Income: Rs. ${income ?: 0.0}"
+                        // Extract numeric value from tvTotalIncome and pass to updateBalance
+                        val totalIncomeValue = extractAmount(binding.tvTotalIncome.text.toString())
+                        updateBalance(totalIncomeValue, extractAmount(binding.tvTotalExpense.text.toString()))
+                    }
+                }
+                launch {
+                    transactionViewModel.totalExpense.collect { expense ->
+                        binding.tvTotalExpense.text = "Total Expense: Rs. ${expense ?: 0.0}"
+                        // Extract numeric value from tvTotalExpense and pass to updateBalance
+                        val totalExpenseValue = extractAmount(binding.tvTotalExpense.text.toString())
+                        updateBalance(extractAmount(binding.tvTotalIncome.text.toString()), totalExpenseValue)
+                    }
                 }
             }
         }

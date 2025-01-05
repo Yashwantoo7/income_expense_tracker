@@ -51,30 +51,48 @@ class ChartActivity : AppCompatActivity() {
         // Observe the selected item from the Spinner and update charts accordingly
         daysSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                val selectedDays = parent?.getItemAtPosition(position).toString().toInt()
-                setupObservers(selectedDays)
+                val selectedDays = parent?.getItemAtPosition(position).toString()
+                if (selectedDays=="All"){
+                    setupObservers(-1)
+                } else {
+                    setupObservers(selectedDays.toInt())
+                }
             }
             override fun onNothingSelected(parent: AdapterView<*>?) {
-                setupObservers()
+                setupObservers(-1)
             }
         }
     }
 
-    private fun setupObservers(days: Int = 30) {
+    private fun setupObservers(days: Int) {
         val pieChartIncome: PieChart = binding.pieChartIncome
         val pieChartExpense: PieChart = binding.pieChartExpense
 
         lifecycleScope.launch {
-            transactionFilterHelper.filterTransactionsByDays(transactionViewModel.getIncomeSubcategoriesTransactions(), days).collect { incomeTransactions ->
-                val incomeSubcategories = getSubcategoriesData(incomeTransactions)
-                updatePieChart(pieChartIncome, incomeSubcategories, "Income Subcategories", true)
+            if (days != -1) {
+                transactionFilterHelper.filterTransactionsByDays(transactionViewModel.getIncomeSubcategoriesTransactions(), days).collect { incomeTransactions ->
+                    val incomeSubcategories = getSubcategoriesData(incomeTransactions)
+                    updatePieChart(pieChartIncome, incomeSubcategories, "Income Subcategories", true)
+                }
+            } else {
+                transactionViewModel.getIncomeSubcategoriesTransactions().collect { incomeTransactions ->
+                    val incomeSubcategories = getSubcategoriesData(incomeTransactions)
+                    updatePieChart(pieChartIncome, incomeSubcategories, "Income Subcategories", true)
+                }
             }
         }
 
         lifecycleScope.launch {
-            transactionFilterHelper.filterTransactionsByDays(transactionViewModel.getExpenseSubcategoriesTransactions(), days).collect { expenseTransactions ->
-                val expenseSubcategories = getSubcategoriesData(expenseTransactions)
-                updatePieChart(pieChartExpense, expenseSubcategories, "Expense Subcategories", false)
+            if (days != -1) {
+                transactionFilterHelper.filterTransactionsByDays(transactionViewModel.getExpenseSubcategoriesTransactions(), days).collect { expenseTransactions ->
+                    val expenseSubcategories = getSubcategoriesData(expenseTransactions)
+                    updatePieChart(pieChartExpense, expenseSubcategories, "Expense Subcategories", false)
+                }
+            } else {
+                transactionViewModel.getExpenseSubcategoriesTransactions().collect { expenseTransactions ->
+                    val expenseSubcategories = getSubcategoriesData(expenseTransactions)
+                    updatePieChart(pieChartExpense, expenseSubcategories, "Expense Subcategories", false)
+                }
             }
         }
     }
@@ -126,6 +144,11 @@ class ChartActivity : AppCompatActivity() {
         pieChart.legend.isEnabled = false // Disable internal legend
         pieChart.setDrawEntryLabels(true)
         pieChart.setEntryLabelTextSize(8f)
+
+        // Add a slice border and space between slices
+        dataSet.sliceSpace = 0.5f // This adds space between the slices (optional)
+        dataSet.valueLineWidth = 0.5f // Border width around each entry
+        dataSet.valueLineColor = Color.BLACK // Border color (you can change this to any color)
 
         // Make the center of the pie chart transparent (donut chart style)
         pieChart.isDrawHoleEnabled = true

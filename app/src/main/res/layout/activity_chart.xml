@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="16dp">
+    android:padding="6dp">
 
     <!-- Dropdown to select the number of days -->
     <TextView
@@ -26,7 +26,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingLeft="16dp"
-        android:layout_marginTop="16dp">
+        android:layout_marginTop="6dp">
 
         <!-- PieChart for income with increased height -->
         <com.github.mikephil.charting.charts.PieChart
@@ -59,13 +59,13 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingLeft="16dp"
-        android:layout_marginTop="16dp">
+        android:layout_marginTop="6dp">
 
         <!-- PieChart for expenses with increased height -->
         <com.github.mikephil.charting.charts.PieChart
             android:id="@+id/pieChartExpense"
             android:layout_width="match_parent"
-            android:layout_height="250dp"
+            android:layout_height="225dp"
             android:layout_weight="0" /> <!-- Removed weight to fix height -->
 
         <!-- Expense legend section (Scrollable) -->
