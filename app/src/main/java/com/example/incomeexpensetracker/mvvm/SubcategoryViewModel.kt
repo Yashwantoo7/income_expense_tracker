@@ -19,6 +19,10 @@ class SubcategoryViewModel(application: Application) : AndroidViewModel(applicat
     // Save a new subcategory
     fun addSubcategory(subcategory: SubcategoryEntity) {
         viewModelScope.launch {
+            //check if subcategory already exist or not
+            if (subcategoryDao.getSubcategoryByName(subcategory.name) != null) {
+                return@launch
+            }
             subcategoryDao.insertSubcategory(subcategory)
         }
     }

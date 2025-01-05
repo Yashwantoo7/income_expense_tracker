@@ -1,3 +1,11 @@
 <resources>
     <string name="app_name">IncomeExpenseTracker</string>
+    <string-array name="days_array">
+        <item>7</item>
+        <item>15</item>
+        <item>30</item>
+        <item>60</item>
+        <item>90</item>
+        <item>120</item>
+    </string-array>
 </resources>

@@ -20,4 +20,8 @@ interface SubcategoryDao {
 
     @Query("SELECT * FROM subcategories")
     fun getAllSubcategories(): Flow<List<SubcategoryEntity>>
+
+    @Query("SELECT * FROM subcategories WHERE name = :name")
+    suspend fun getSubcategoryByName(name: String): SubcategoryEntity?
+
 }

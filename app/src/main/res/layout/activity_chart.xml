@@ -2,21 +2,38 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <!-- Dropdown to select the number of days -->
+    <TextView
+        android:id="@+id/selectDaysText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Select the number of days for transactions"
+        android:textSize="16sp"
+        android:layout_marginBottom="8dp" />
+
+    <Spinner
+        android:id="@+id/daysSpinner"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:entries="@array/days_array" />
 
     <!-- Container for Income PieChart and Legend -->
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingLeft="16dp">
+        android:paddingLeft="16dp"
+        android:layout_marginTop="16dp">
 
         <!-- PieChart for income with increased height -->
         <com.github.mikephil.charting.charts.PieChart
             android:id="@+id/pieChartIncome"
             android:layout_width="match_parent"
             android:layout_height="200dp"
-        android:layout_weight="0" /> <!-- Removed weight to fix height -->
+            android:layout_weight="0" /> <!-- Removed weight to fix height -->
 
         <!-- Income legend section (Scrollable) -->
         <androidx.core.widget.NestedScrollView
@@ -41,14 +58,15 @@
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingLeft="16dp">
+        android:paddingLeft="16dp"
+        android:layout_marginTop="16dp">
 
         <!-- PieChart for expenses with increased height -->
         <com.github.mikephil.charting.charts.PieChart
             android:id="@+id/pieChartExpense"
             android:layout_width="match_parent"
             android:layout_height="250dp"
-        android:layout_weight="0" /> <!-- Removed weight to fix height -->
+            android:layout_weight="0" /> <!-- Removed weight to fix height -->
 
         <!-- Expense legend section (Scrollable) -->
         <androidx.core.widget.NestedScrollView

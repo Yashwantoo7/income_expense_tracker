@@ -2,9 +2,10 @@ package com.example.incomeexpensetracker.ui.charts
 
 import android.graphics.Color
 import android.os.Bundle
-import android.util.Log
 import android.view.View
+import android.widget.AdapterView
 import android.widget.LinearLayout
+import android.widget.Spinner
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.viewModels
@@ -14,6 +15,7 @@ import com.example.incomeexpensetracker.R
 import com.example.incomeexpensetracker.databinding.ActivityChartBinding
 import com.example.incomeexpensetracker.mvvm.TransactionViewModel
 import com.example.incomeexpensetracker.transactions.TransactionEntity
+import com.example.incomeexpensetracker.utils.TransactionFilterHelper
 import com.github.mikephil.charting.charts.PieChart
 import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.data.PieData
@@ -29,6 +31,7 @@ class ChartActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityChartBinding
     private val transactionViewModel: TransactionViewModel by viewModels()
+    private lateinit var transactionFilterHelper: TransactionFilterHelper
 
     // Keep a reference to the currently displayed Toast
     private var currentToast: Toast? = null
@@ -37,23 +40,39 @@ class ChartActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityChartBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        transactionFilterHelper = TransactionFilterHelper()
 
-        setupObservers()
+        // Get the Spinner for selecting days
+        val daysSpinner: Spinner = binding.daysSpinner
+        setupDaysSpinner(daysSpinner)
     }
 
-    private fun setupObservers() {
+    private fun setupDaysSpinner(daysSpinner: Spinner) {
+        // Observe the selected item from the Spinner and update charts accordingly
+        daysSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                val selectedDays = parent?.getItemAtPosition(position).toString().toInt()
+                setupObservers(selectedDays)
+            }
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+                setupObservers()
+            }
+        }
+    }
+
+    private fun setupObservers(days: Int = 30) {
         val pieChartIncome: PieChart = binding.pieChartIncome
         val pieChartExpense: PieChart = binding.pieChartExpense
 
         lifecycleScope.launch {
-            transactionViewModel.getIncomeSubcategoriesTransactions().collect { incomeTransactions ->
+            transactionFilterHelper.filterTransactionsByDays(transactionViewModel.getIncomeSubcategoriesTransactions(), days).collect { incomeTransactions ->
                 val incomeSubcategories = getSubcategoriesData(incomeTransactions)
                 updatePieChart(pieChartIncome, incomeSubcategories, "Income Subcategories", true)
             }
         }
 
         lifecycleScope.launch {
-            transactionViewModel.getExpenseSubcategoriesTransactions().collect { expenseTransactions ->
+            transactionFilterHelper.filterTransactionsByDays(transactionViewModel.getExpenseSubcategoriesTransactions(), days).collect { expenseTransactions ->
                 val expenseSubcategories = getSubcategoriesData(expenseTransactions)
                 updatePieChart(pieChartExpense, expenseSubcategories, "Expense Subcategories", false)
             }

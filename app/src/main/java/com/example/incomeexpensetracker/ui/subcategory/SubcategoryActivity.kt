@@ -87,6 +87,7 @@ class SubcategoryActivity : AppCompatActivity() {
                             }
                             dialogBinding.btnAddSubcategory.setOnClickListener {
                                 val subcategoryName = dialogBinding.etSubcategoryName.text.toString()
+
                                 if (subcategoryName.isNotEmpty()) {
                                     addSubcategory(subcategoryName, selectedCategory.id)
                                 }

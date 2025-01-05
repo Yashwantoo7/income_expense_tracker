@@ -3,6 +3,9 @@ package com.example.incomeexpensetracker.ui.summary
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
+import android.widget.Spinner
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
@@ -13,17 +16,16 @@ import com.example.incomeexpensetracker.ui.summary.adapter.RecentTransactionsAda
 import com.example.incomeexpensetracker.ui.summary.adapter.Transaction
 import com.example.incomeexpensetracker.mvvm.TransactionViewModel
 import com.example.incomeexpensetracker.ui.addedit.EditTransactionActivity
+import com.example.incomeexpensetracker.utils.TransactionFilterHelper
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
 class SummaryActivity : AppCompatActivity() {
 
-    private val TAG: String = "SummaryActivity.kt"
-
     private lateinit var binding: ActivitySummaryBinding
     private lateinit var adapter: RecentTransactionsAdapter
-    private val recentTransactions = mutableListOf<Transaction>() // Replace with your Transaction model
-
+    private val recentTransactions = mutableListOf<Transaction>()
+    private lateinit var transactionFilterHelper: TransactionFilterHelper
     private val transactionViewModel: TransactionViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -40,14 +42,49 @@ class SummaryActivity : AppCompatActivity() {
             }
         })
 
+        transactionFilterHelper = TransactionFilterHelper()
+
         binding.rvRecentTransactions.layoutManager = LinearLayoutManager(this)
         binding.rvRecentTransactions.adapter = adapter
 
         // Observe the total income, total expense, and balance
         observeSummaryData()
 
-        // Observe recent transactions
+        // Populate the Spinner for days selection
+        // Get the Spinner for selecting days
+        val daysSpinner: Spinner = binding.daysSpinner
+        setupDaysSpinner(daysSpinner)
+
+        // Observe recent transactions based on selected number of days
         observeRecentTransactions()
+    }
+
+    private fun setupDaysSpinner(daysSpinner: Spinner) {
+        daysSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parentView: AdapterView<*>, selectedItemView: android.view.View?, position: Int, id: Long) {
+                val selectedDays = parentView.getItemAtPosition(position).toString().toInt()
+                observeRecentTransactions(selectedDays)  // Fetch transactions for selected days
+            }
+
+            override fun onNothingSelected(parentView: AdapterView<*>) {
+                // Handle case when no item is selected (default to last 30 days)
+                observeRecentTransactions(30)
+            }
+        }
+    }
+
+    private fun observeRecentTransactions(days: Int = 30) {
+        lifecycleScope.launchWhenStarted {
+            val filteredTransactions = transactionFilterHelper.filterTransactionsByDays(transactionViewModel.recentTransactions, days)
+            filteredTransactions.collect { transactions ->
+                // Map the transactions to your UI model (Transaction)
+                recentTransactions.clear()
+                recentTransactions.addAll(transactions.map {
+                    Transaction(it.id, it.amount, it.category, it.subcategory, it.date, it.description)
+                })
+                adapter.notifyDataSetChanged()
+            }
+        }
     }
 
     private fun observeSummaryData() {
@@ -87,8 +124,6 @@ class SummaryActivity : AppCompatActivity() {
             // Keep only the first part and the first decimal point
             numericString = "${parts[0]}.${parts[1]}"
         }
-
-        Log.d(TAG, "Extracted numeric string: $numericString, from text: $text")
         return numericString.toDoubleOrNull() ?: 0.0
     }
 
@@ -104,18 +139,6 @@ class SummaryActivity : AppCompatActivity() {
         }
     }
 
-    private fun observeRecentTransactions() {
-        lifecycleScope.launchWhenStarted {
-            transactionViewModel.recentTransactions.collect { transactions ->
-                // Map the transactions to your UI model (Transaction)
-                recentTransactions.clear()
-                recentTransactions.addAll(transactions.map {
-                    Transaction(it.id, it.amount, it.category, it.subcategory, it.date, it.description)
-                })
-                adapter.notifyDataSetChanged()
-            }
-        }
-    }
 
     private fun onEditTransactionClick(transaction: Transaction) {
         // Launch an edit dialog or activity
